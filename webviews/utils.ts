@@ -88,3 +88,32 @@ export const answerPrompt = async (
   const data = await response.json();
   return data.candidates[0].content.parts[0].text;
 };
+
+
+export const getSuggestedPlan = async (
+  prompt:string, API_KEY:string
+) => {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: `Based on the following prompt: ${prompt}, generate a detailed suggested plan outlining key steps, potential challenges, and best practices to achieve the objective.`,
+              },
+            ],
+          },
+        ],
+      }),
+    }
+  );
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
+};

@@ -3,6 +3,14 @@
   import { marked } from "marked";
   import { getComment, getExplanation, answerPrompt } from "../utils";
 
+  import InputBox from './InputBox.svelte';  // Import the InputBox component
+
+  let inputValue = '';
+
+  const handlePlanSubmit = (value) => {
+    console.log(value);  // Here, you can handle the value when the submit button is clicked
+  };
+
   let loading = false;
   let text = "";
   let prompt = "";
@@ -148,6 +156,7 @@
     "**Welcome to Quix AI!** I'm here to assist you in accomplishing tasks faster.\n \n Powered by Gemini Pro AI, I'm designed to enhance efficiency, though surprises and errors may occur. Please verify any generated code or suggestions.",
   )}
 </div>
+ <InputBox inputValue={inputValue} onSubmit={handlePlanSubmit} />
 
 <div>
   <div class="description">
