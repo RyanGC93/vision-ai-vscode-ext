@@ -20,6 +20,7 @@
   "activationEvents": [
     "onCommand:quix.suggestComment",
     "onCommand:quix.explainSelection",
+    "onCommand:quix.getSuggestedPlan",
     "onView:quix-sidebar"
   ],
   "main": "./dist/extension.js",
@@ -54,11 +55,24 @@
         "command": "quix.suggestComment",
         "category": "Quix",
         "title": "Suggest Comment"
-      },
+      },{
+      "command": "quix.explainTest",
+      "category": "Quix",
+      "title": "Explain Test"
+    },
+      {"command": "quix.suggestTest",
+      "category": "Quix",
+      "title": "Suggest Test"
+    },
       {
         "command": "quix.promptSelection",
         "category": "Quix",
         "title": "Prompt Selection"
+      },
+      {
+        "command": "quix.getSuggestedPlan",
+        "category": "Quix",
+        "title": "Get Suggested Plan"
       }
     ],
     "menus": {
@@ -70,6 +84,11 @@
         },
         {
           "when": "editorTextFocus",
+          "command": "quix.explainTest",
+          "group": "0_quix"
+        },
+        {
+          "when": "editorTextFocus",
           "command": "quix.suggestComment",
           "group": "0_quix"
         },
@@ -77,10 +96,21 @@
           "when": "editorTextFocus",
           "command": "quix.promptSelection",
           "group": "0_quix"
+        },
+        {
+          "when": "editorTextFocus",
+          "command": "quix.getSuggestedPlan",
+          "group": "0_quix"
         }
       ]
     },
     "keybindings": [
+      {
+        "command": "quix.explainTest",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus"
+      },
       {
         "command": "quix.explainSelection",
         "key": "ctrl+shift+e",
@@ -97,6 +127,12 @@
         "command": "quix.promptSelection",
         "key": "ctrl+shift+m",
         "mac": "cmd+shift+m",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "quix.getSuggestedPlan",
+        "key": "ctrl+shift+p",
+        "mac": "cmd+shift+p",
         "when": "editorTextFocus"
       }
     ],

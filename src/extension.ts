@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 import { SidebarProvider } from "./SidebarProvider";
 
+const apikey = 'AIzaSyBjfOPlVrvW_mkq4fIecXLfbZRTPjTLYpo'
+
 export function activate(context: vscode.ExtensionContext) {
   const sidebarProvider = new SidebarProvider(context.extensionUri);
 
@@ -32,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("quix.explainSelection", () => {
       // Get apikey from configuration
-      const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
+      // const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
 
       if (!apikey) {
         vscode.window.showInformationMessage(
@@ -80,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("quix.suggestComment", () => {
       // Get apikey from configuration
-      const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
+      // const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
 
       if (!apikey) {
         vscode.window.showInformationMessage(
@@ -125,10 +127,108 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
+  // Suggest Plan
+  context.subscriptions.push(
+    vscode.commands.registerCommand("quix.getSuggestedPlan", () => {
+      // Get API key from configuration;
+  
+      if (!apikey) {
+        vscode.window.showInformationMessage(
+          "No API key set. Please set your API key in the Quix extension settings."
+        );
+        return;
+      }
+  
+      const { activeTextEditor } = vscode.window;
+  
+      if (!activeTextEditor) {
+        vscode.window.showInformationMessage("No active text editor");
+        return;
+      }
+  
+      const text = activeTextEditor.document.getText(
+        activeTextEditor.selection
+      );
+  
+      if (!text) {
+        vscode.window.showInformationMessage("No text selected");
+        return;
+      }
+  
+      // Open the sidebar in the current editor
+      vscode.commands.executeCommand(
+        "workbench.view.extension.quix-sidebar-view"
+      );
+  
+      // Get active text editor language
+      const language = activeTextEditor.document.languageId;
+  
+      // Send a message to our Sidebar webview
+      sidebarProvider._view?.webview.postMessage({
+        type: "suggested-plan",
+        value: {
+          text: text,
+          language: language,
+          apikey: apikey,
+        },
+      });
+    })
+  );
+
+  // Gernerate Tests
+  context.subscriptions.push(
+    vscode.commands.registerCommand("quix.explainTest", () => {
+      // Get API key from configuration;
+  
+      if (!apikey) {
+        vscode.window.showInformationMessage(
+          "No API key set. Please set your API key in the Quix extension settings."
+        );
+        return;
+      }
+  
+      const { activeTextEditor } = vscode.window;
+  
+      if (!activeTextEditor) {
+        vscode.window.showInformationMessage("No active text editor");
+        return;
+      }
+  
+      const text = activeTextEditor.document.getText(
+        activeTextEditor.selection
+      );
+  
+      if (!text) {
+        vscode.window.showInformationMessage("No text selected");
+        return;
+      }
+  
+      // Open the sidebar in the current editor
+      vscode.commands.executeCommand(
+        "workbench.view.extension.quix-sidebar-view"
+      );
+  
+      // Get active text editor language
+      const language = activeTextEditor.document.languageId;
+  
+      // Send a message to our Sidebar webview
+      sidebarProvider._view?.webview.postMessage({
+        type: "suggested-test",
+        value: {
+          text: text,
+          language: language,
+          apikey: apikey,
+        },
+      });
+    })
+  );
+  
+
+// Prompt Selection
   context.subscriptions.push(
     vscode.commands.registerCommand("quix.promptSelection", () => {
       // Get apikey from configuration
-      const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
+      // const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
 
       if (!apikey) {
         vscode.window.showInformationMessage(
@@ -173,5 +273,8 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 }
+
+// Testing Selection 
+
 
 export function deactivate() {}

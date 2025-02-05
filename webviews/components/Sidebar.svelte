@@ -1,15 +1,13 @@
+
 <script lang="ts">
   import { onMount } from "svelte";
   import { marked } from "marked";
-  import { getComment, getExplanation, answerPrompt } from "../utils";
+  import {getSuggestedTest, getSuggestedPlan, getComment, getExplanation, answerPrompt } from "../utils";
 
   import InputBox from './InputBox.svelte';  // Import the InputBox component
 
   let inputValue = '';
 
-  const handlePlanSubmit = (value) => {
-    console.log(value);  // Here, you can handle the value when the submit button is clicked
-  };
 
   let loading = false;
   let text = "";
@@ -52,16 +50,41 @@
         initializeVariables();
         tsvscode.postMessage({
           type: "onError",
-          value: "Error: Please check your API key.",
+          value: "Error: Please check your API key 23.",
         });
       });
 
     promptSelection = false;
   };
 
+  
+  const handlePlanSubmit = () => {
+    apiKey = "AIzaSyBjfOPlVrvW_mkq4fIecXLfbZRTPjTLYpo"
+
+loading = true;
+text = selectedCode;
+getSuggestedPlan(prompt, selectedCode, selectedCode, apikey)
+  .then((data) => {
+    loading = false;
+    text = data;
+    getTypingEffect(text);
+  })
+  .catch((err) => {
+    initializeVariables();
+    tsvscode.postMessage({
+      type: "onError",
+      value: "Error: Please check your API key Here.",
+    });
+  });
+
+promptSelection = false;
+
+};
+
   onMount(() => {
     window.addEventListener("message", (event) => {
       const message = event.data;
+      console.log(message)
       let result = "";
 
       switch (message.type) {
@@ -78,6 +101,8 @@
             getTypingEffect(result);
           }
           break;
+
+
 
         case "add-relevant-comment":
           if (message.value.text.length > 0) {
@@ -104,6 +129,59 @@
             getTypingEffect(result);
           }
           break;
+
+          case "suggested-test":
+          if (message.value.text.length > 0) {
+            text = message.value.text;
+            const language = message.value.language;
+            loading = true;
+            promptSelection = false;
+            getSuggestedTest(language, text, "AIzaSyBjfOPlVrvW_mkq4fIecXLfbZRTPjTLYpo")
+              .then((data) => {
+                loading = false;
+                result = data;
+                getTypingEffect(result);
+              })
+              .catch(() => {
+                initializeVariables();
+                tsvscode.postMessage({
+                  type: "onError",
+                  value: "Error: Please check your API key 2.",
+                });
+              });
+          } else {
+            result = "Please select a code block to explain.";
+            getTypingEffect(result);
+          }
+          break;
+
+
+   
+        case "suggested-plan":
+          if (message.value.text.length > 0) {
+            text = message.value.text;
+            const language = message.value.language;
+            loading = true;
+            promptSelection = false;
+            getSuggestedPlan(language, text, "AIzaSyBjfOPlVrvW_mkq4fIecXLfbZRTPjTLYpo")
+              .then((data) => {
+                loading = false;
+                result = data;
+                getTypingEffect(result);
+              })
+              .catch(() => {
+                initializeVariables();
+                tsvscode.postMessage({
+                  type: "onError",
+                  value: "Error: Please check your API key 2.",
+                });
+              });
+          } else {
+            result = "Please select a code block to explain.";
+            getTypingEffect(result);
+          }
+          break;
+
 
         case "explain-selection":
           if (message.value.text.length > 0) {
@@ -156,7 +234,8 @@
     "**Welcome to Quix AI!** I'm here to assist you in accomplishing tasks faster.\n \n Powered by Gemini Pro AI, I'm designed to enhance efficiency, though surprises and errors may occur. Please verify any generated code or suggestions.",
   )}
 </div>
- <InputBox inputValue={inputValue} onSubmit={handlePlanSubmit} />
+
+<InputBox inputValue={inputValue} on:submit={getSuggestedPlan(inputValue)} />
 
 <div>
   <div class="description">

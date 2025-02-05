@@ -91,10 +91,13 @@ export const answerPrompt = async (
 
 
 export const getSuggestedPlan = async (
-  prompt:string, API_KEY:string
+  prompt: string,
+  language: string,
+  code: string,
+  API_KEY: string
 ) => {
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBjfOPlVrvW_mkq4fIecXLfbZRTPjTLYpo`,
     {
       method: "POST",
       headers: {
@@ -105,7 +108,42 @@ export const getSuggestedPlan = async (
           {
             parts: [
               {
-                text: `Based on the following prompt: ${prompt}, generate a detailed suggested plan outlining key steps, potential challenges, and best practices to achieve the objective.`,
+                text: `Based on the following prompt: ${prompt}, generate a detailed suggested plan outlining key steps, potential challenges, and best practices to achieve the objective using the following ${code} & ${language}.`,
+              },
+            ],
+          },
+        ],
+      }),
+    }
+  );
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
+}
+export const getSuggestedTest = async (
+  prompt: string,
+  language: string,
+  code: string,
+  API_KEY: string
+) => {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBjfOPlVrvW_mkq4fIecXLfbZRTPjTLYpo`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: `Generate a comprehensive test suite for the following code in ${language}. 
+                The tests should include unit tests, edge cases, performance tests (if applicable), 
+                and validation checks. 
+                Ensure the test cases are structured clearly and follow best practices:
+                
+                ${code}`,
               },
             ],
           },
