@@ -1,7 +1,7 @@
 {
-  "name": "quixai",
-  "displayName": "Quix AI",
-  "description": "Quix.ai is an intelligent VSCode extension powered by Gemini Pro AI, designed to revolutionize your coding experience.",
+  "name": "visionai",
+  "displayName": "Vision AI",
+  "description": "Vision AI is an intelligent VSCode extension powered by Gemini Pro AI, designed to revolutionize your coding experience.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.85.1"
@@ -12,66 +12,68 @@
     "Education"
   ],
   "icon": "media/logo.png",
-  "publisher": "bhavikagarwal",
+  "publisher": "ryangc93",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Bhavik-ag/Quix.ai.git"
+    "url": "https://github.com/RyanGC93/vision-ai-vscode-ex.git"
   },
   "activationEvents": [
-    "onCommand:quix.suggestComment",
-    "onCommand:quix.explainSelection",
-    "onCommand:quix.getSuggestedPlan",
-    "onView:quix-sidebar"
+    "onCommand:vision.suggestComment",
+    "onCommand:vision.explainSelection",
+    "onCommand:vision.getSuggestedPlan",
+    "onView:vision-sidebar"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "quix-sidebar-view",
-          "title": "Quix AI",
+          "id": "vision-sidebar-view",
+          "title": "Vision AI",
           "icon": "media/icon.svg"
         }
       ]
     },
     "views": {
-      "quix-sidebar-view": [
+      "vision-sidebar-view": [
         {
           "type": "webview",
-          "id": "quix-sidebar",
-          "name": "Quix AI",
+          "id": "vision-sidebar",
+          "name": "Vision AI",
           "icon": "media/icon.svg",
-          "contextualTitle": "Quix"
+          "contextualTitle": "Vision"
         }
       ]
     },
     "commands": [
       {
-        "command": "quix.explainSelection",
-        "category": "Quix",
+        "command": "vision.explainSelection",
+        "category": "Vision",
         "title": "Explain This"
       },
       {
-        "command": "quix.suggestComment",
-        "category": "Quix",
+        "command": "vision.suggestComment",
+        "category": "Vision",
         "title": "Suggest Comment"
-      },{
-      "command": "quix.explainTest",
-      "category": "Quix",
-      "title": "Explain Test"
-    },
-      {"command": "quix.suggestTest",
-      "category": "Quix",
-      "title": "Suggest Test"
-    },
+      },
       {
-        "command": "quix.promptSelection",
-        "category": "Quix",
+        "command": "vision.explainTest",
+        "category": "Vision",
+        "title": "Explain Test"
+      },
+      {
+        "command": "vision.suggestTest",
+        "category": "Vision",
+        "title": "Suggest Test"
+      },
+      {
+        "command": "vision.promptSelection",
+        "category": "Vision",
         "title": "Prompt Selection"
       },
       {
-        "command": "quix.getSuggestedPlan",
-        "category": "Quix",
+        "command": "vision.getSuggestedPlan",
+        "category": "Vision",
         "title": "Get Suggested Plan"
       }
     ],
@@ -79,67 +81,67 @@
       "editor/context": [
         {
           "when": "editorTextFocus",
-          "command": "quix.explainSelection",
-          "group": "0_quix"
+          "command": "vision.explainSelection",
+          "group": "0_vision"
         },
         {
           "when": "editorTextFocus",
-          "command": "quix.explainTest",
-          "group": "0_quix"
+          "command": "vision.explainTest",
+          "group": "0_vision"
         },
         {
           "when": "editorTextFocus",
-          "command": "quix.suggestComment",
-          "group": "0_quix"
+          "command": "vision.suggestComment",
+          "group": "0_vision"
         },
         {
           "when": "editorTextFocus",
-          "command": "quix.promptSelection",
-          "group": "0_quix"
+          "command": "vision.promptSelection",
+          "group": "0_vision"
         },
         {
           "when": "editorTextFocus",
-          "command": "quix.getSuggestedPlan",
-          "group": "0_quix"
+          "command": "vision.getSuggestedPlan",
+          "group": "0_vision"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "quix.explainTest",
+        "command": "vision.explainTest",
         "key": "ctrl+shift+t",
         "mac": "cmd+shift+t",
         "when": "editorTextFocus"
       },
       {
-        "command": "quix.explainSelection",
+        "command": "vision.explainSelection",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
         "when": "editorTextFocus"
       },
       {
-        "command": "quix.suggestComment",
+        "command": "vision.suggestComment",
         "key": "ctrl+shift+c",
         "mac": "cmd+shift+c",
         "when": "editorTextFocus"
       },
       {
-        "command": "quix.promptSelection",
+        "command": "vision.promptSelection",
         "key": "ctrl+shift+m",
         "mac": "cmd+shift+m",
         "when": "editorTextFocus"
       },
       {
-        "command": "quix.getSuggestedPlan",
+        "command": "vision.getSuggestedPlan",
         "key": "ctrl+shift+p",
         "mac": "cmd+shift+p",
         "when": "editorTextFocus"
       }
     ],
     "configuration": {
-      "title": "Quix AI",
+      "title": "Vision AI",
       "properties": {
-        "quix.apiKey": {
+        "vision.apiKey": {
           "type": "string",
           "default": "",
           "description": "Gemini AI API Key"

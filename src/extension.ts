@@ -7,7 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
   const sidebarProvider = new SidebarProvider(context.extensionUri);
 
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider("quix-sidebar", sidebarProvider)
+    vscode.window.registerWebviewViewProvider("vision-sidebar", sidebarProvider)
   );
 
   const explainSelectionButton = vscode.window.createStatusBarItem(
@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   explainSelectionButton.text = "$(comment-discussion) Explain Code";
-  explainSelectionButton.command = "quix.explainSelection";
+  explainSelectionButton.command = "vision.explainSelection";
   explainSelectionButton.show();
 
   // Register a command to insert text at the cursor position
@@ -32,13 +32,10 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("quix.explainSelection", () => {
-      // Get apikey from configuration
-      // const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
-
+    vscode.commands.registerCommand("vision.explainSelection", () => {
       if (!apikey) {
         vscode.window.showInformationMessage(
-          "No API key set. Please set your API key in the Quix extension settings."
+          "No API key set. Please set your API key in the Vision extension settings."
         );
         return;
       }
@@ -59,15 +56,12 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      // Open the sidebar in the current editor
       vscode.commands.executeCommand(
-        "workbench.view.extension.quix-sidebar-view"
+        "workbench.view.extension.vision-sidebar-view"
       );
 
-      // Get active text editor language
       const language = activeTextEditor.document.languageId;
 
-      // send a message to our Sidebar webview
       sidebarProvider._view?.webview.postMessage({
         type: "explain-selection",
         value: {
@@ -80,13 +74,10 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("quix.suggestComment", () => {
-      // Get apikey from configuration
-      // const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
-
+    vscode.commands.registerCommand("vision.suggestComment", () => {
       if (!apikey) {
         vscode.window.showInformationMessage(
-          "No API key set. Please set your API key in the Quix extension settings."
+          "No API key set. Please set your API key in the Vision extension settings."
         );
         return;
       }
@@ -107,15 +98,12 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      // Open the sidebar in the current editor
       vscode.commands.executeCommand(
-        "workbench.view.extension.quix-sidebar-view"
+        "workbench.view.extension.vision-sidebar-view"
       );
 
-      // Get active text editor language
       const language = activeTextEditor.document.languageId;
 
-      // send a message to our Sidebar webview
       sidebarProvider._view?.webview.postMessage({
         type: "add-relevant-comment",
         value: {
@@ -127,43 +115,37 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Suggest Plan
   context.subscriptions.push(
-    vscode.commands.registerCommand("quix.getSuggestedPlan", () => {
-      // Get API key from configuration;
-  
+    vscode.commands.registerCommand("vision.getSuggestedPlan", () => {
       if (!apikey) {
         vscode.window.showInformationMessage(
-          "No API key set. Please set your API key in the Quix extension settings."
+          "No API key set. Please set your API key in the Vision extension settings."
         );
         return;
       }
-  
+
       const { activeTextEditor } = vscode.window;
-  
+
       if (!activeTextEditor) {
         vscode.window.showInformationMessage("No active text editor");
         return;
       }
-  
+
       const text = activeTextEditor.document.getText(
         activeTextEditor.selection
       );
-  
+
       if (!text) {
         vscode.window.showInformationMessage("No text selected");
         return;
       }
-  
-      // Open the sidebar in the current editor
+
       vscode.commands.executeCommand(
-        "workbench.view.extension.quix-sidebar-view"
+        "workbench.view.extension.vision-sidebar-view"
       );
-  
-      // Get active text editor language
+
       const language = activeTextEditor.document.languageId;
-  
-      // Send a message to our Sidebar webview
+
       sidebarProvider._view?.webview.postMessage({
         type: "suggested-plan",
         value: {
@@ -175,43 +157,37 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Gernerate Tests
   context.subscriptions.push(
-    vscode.commands.registerCommand("quix.explainTest", () => {
-      // Get API key from configuration;
-  
+    vscode.commands.registerCommand("vision.explainTest", () => {
       if (!apikey) {
         vscode.window.showInformationMessage(
-          "No API key set. Please set your API key in the Quix extension settings."
+          "No API key set. Please set your API key in the Vision extension settings."
         );
         return;
       }
-  
+
       const { activeTextEditor } = vscode.window;
-  
+
       if (!activeTextEditor) {
         vscode.window.showInformationMessage("No active text editor");
         return;
       }
-  
+
       const text = activeTextEditor.document.getText(
         activeTextEditor.selection
       );
-  
+
       if (!text) {
         vscode.window.showInformationMessage("No text selected");
         return;
       }
-  
-      // Open the sidebar in the current editor
+
       vscode.commands.executeCommand(
-        "workbench.view.extension.quix-sidebar-view"
+        "workbench.view.extension.vision-sidebar-view"
       );
-  
-      // Get active text editor language
+
       const language = activeTextEditor.document.languageId;
-  
-      // Send a message to our Sidebar webview
+
       sidebarProvider._view?.webview.postMessage({
         type: "suggested-test",
         value: {
@@ -222,17 +198,12 @@ export function activate(context: vscode.ExtensionContext) {
       });
     })
   );
-  
 
-// Prompt Selection
   context.subscriptions.push(
-    vscode.commands.registerCommand("quix.promptSelection", () => {
-      // Get apikey from configuration
-      // const apikey = vscode.workspace.getConfiguration().get("quix.apiKey");
-
+    vscode.commands.registerCommand("vision.promptSelection", () => {
       if (!apikey) {
         vscode.window.showInformationMessage(
-          "No API key set. Please set your API key in the Quix extension settings."
+          "No API key set. Please set your API key in the Vision extension settings."
         );
         return;
       }
@@ -253,15 +224,12 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      // Open the sidebar in the current editor
       vscode.commands.executeCommand(
-        "workbench.view.extension.quix-sidebar-view"
+        "workbench.view.extension.vision-sidebar-view"
       );
 
-      // Get active text editor language
       const language = activeTextEditor.document.languageId;
 
-      // send a message to our Sidebar webview
       sidebarProvider._view?.webview.postMessage({
         type: "prompt-selection",
         value: {
@@ -273,8 +241,5 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 }
-
-// Testing Selection 
-
 
 export function deactivate() {}
