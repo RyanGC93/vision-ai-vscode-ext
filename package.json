@@ -75,6 +75,11 @@
         "command": "vision.getSuggestedPlan",
         "category": "Vision",
         "title": "Get Suggested Plan"
+      },
+      {
+        "command": "vision.fileView",
+        "category": "Vision",
+        "title": "Open File View"
       }
     ],
     "menus": {

@@ -240,7 +240,7 @@ promptSelection = false;
 <div>
   <div class="description">
     {@html marked(
-      "- Explain Selection - Ctrl+Shift+E \n - Suggest Comment - Ctrl+Shift+C \n - Prompt Selection - Ctrl+Shift+M",
+"- Explain Test - Ctrl+Shift+T\n- Explain Selection - Ctrl+Shift+E\n- Suggest Comment - Ctrl+Shift+C\n- Prompt Selection - Ctrl+Shift+M\n- Get Suggested Plan - Ctrl+Shift+P",
     )}
   </div>
 </div>

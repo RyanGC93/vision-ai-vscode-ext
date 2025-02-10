@@ -9,6 +9,7 @@ export function registerCommands(context: vscode.ExtensionContext, sidebarProvid
     { name: "vision.getSuggestedPlan", type: "suggested-plan" },
     { name: "vision.explainTest", type: "suggested-test" },
     { name: "vision.promptSelection", type: "prompt-selection" },
+    { name: "vision.fileView", type: "file-view" } // Added new command
   ];
 
   // Register all commands
